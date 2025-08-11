@@ -19,7 +19,7 @@ An interactive and easy-to-use GPA calculator web app built with **Flask** and *
 
 ## 📸 Demo
 
-![Demo GIF](./demo.gif)  
+![Demo GIF](./demp.gif)  
 
 
 ---
