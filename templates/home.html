@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>GPA Calculator</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Poppins:wght@400;600&display=swap');
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: #0f0c29;
+    background: radial-gradient(circle at center, #1f1c34, #0f0c29 80%);
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    color: #e0e0ff;
+    user-select: none;
+  }
+
+  .calculator-card {
+    background: #1a1830;
+    padding: 40px 35px;
+    border-radius: 20px;
+    box-shadow:
+      0 0 15px 5px #6f42c1cc,
+      0 0 40px 15px #8a6df5bb;
+    max-width: 600px;
+    width: 100%;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+  }
+  .calculator-card:hover {
+    transform: scale(1.05);
+    box-shadow:
+      0 0 25px 10px #915cffdd,
+      0 0 60px 25px #b381ffbb;
+  }
+
+  h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: 2.8rem;
+    text-align: center;
+    margin-bottom: 30px;
+    color: #a67cff;
+    text-shadow:
+      0 0 5px #a67cff,
+      0 0 10px #915cff,
+      0 0 20px #b381ff;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 12px;
+  }
+
+  thead tr th {
+    background: #6f42c1;
+    color: #fff;
+    padding: 15px 20px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    border-radius: 12px;
+    text-shadow: 0 0 4px #6f42c1cc;
+    box-shadow: 0 0 10px #6f42c1bb;
+  }
+
+  tbody tr {
+    background: #2c2853;
+    border-radius: 15px;
+    transition: background 0.3s ease;
+  }
+  tbody tr:hover {
+    background: #3b3580;
+    box-shadow: 0 0 8px #915cffaa inset;
+  }
+
+  th, td {
+    padding: 15px 20px;
+    color: #dcd6ff;
+    vertical-align: middle;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  select {
+    width: 100%;
+    padding: 10px 15px;
+    border-radius: 14px;
+    border: 2px solid #5a42a6;
+    background: #4a3f9e;
+    color: #f0e9ff;
+    font-weight: 600;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 0 6px #7d6affaa;
+  }
+  input[type="text"]::placeholder,
+  input[type="number"]::placeholder {
+    color: #b9aef8cc;
+  }
+  input[type="text"]:focus,
+  input[type="number"]:focus,
+  select:focus, select:hover {
+  background-color: #594b96;
+  border-color: #b6aaff;
+  box-shadow: 0 0 1px #b6aaffaa;
+  color: #fff;
+
+  }
+  select {
+    cursor: pointer;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image:
+      linear-gradient(45deg, transparent 50%, #d1b9ff 50%),
+      linear-gradient(135deg, #d1b9ff 50%, transparent 50%),
+      radial-gradient(#d1b9ff 70%, transparent 72%);
+    background-position:
+      calc(100% - 20px) calc(1em + 4px),
+      calc(100% - 15px) calc(1em + 4px),
+      calc(100% - 2.5em) 0.8em;
+    background-size: 7px 7px, 7px 7px, 2em 2em;
+    background-repeat: no-repeat;
+  }
+
+  .btn-primary, .btn-secondary, .btn-danger {
+    border-radius: 14px;
+    font-weight: 700;
+    font-size: 1.2rem;
+    padding: 14px 26px;
+    margin-right: 14px;
+    box-shadow: 0 0 20px #8a6df5aa;
+    border: none;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    user-select: none;
+  }
+  .btn-primary {
+    background: #915cff;
+    color: #fff;
+    text-shadow: 0 0 8px #915cffbb;
+  }
+  .btn-primary:hover {
+    background: #b381ff;
+    box-shadow: 0 0 28px #b381ffcc, 0 0 12px #915cffcc inset;
+    transform: scale(1.08);
+  }
+  .btn-secondary {
+    background: #595075cc;
+    color: #ddd;
+    box-shadow: none;
+  }
+  .btn-secondary:hover {
+    background: #7e70ccdd;
+    box-shadow: 0 0 20px #7e70cccc;
+    transform: scale(1.05);
+  }
+  .btn-danger {
+    background: #ff3d5a;
+    color: white;
+    box-shadow: 0 0 20px #ff3d5aaa;
+  }
+  .btn-danger:hover {
+    background: #e6334f;
+    box-shadow: 0 0 30px #e6334fcc;
+    transform: scale(1.1);
+  }
+  .remove-btn {
+    font-size: 1.2rem;
+    padding: 8px 16px;
+    font-weight: 700;
+    line-height: 1;
+    color: #ffdde3;
+    background: transparent;
+    border: none;
+    text-shadow: 0 0 6px #ff3d5a;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .remove-btn:hover {
+    color: #ffb3be;
+    text-shadow: 0 0 12px #ffb3be;
+    transform: scale(1.3);
+  }
+
+  .result {
+    margin-top: 30px;
+    font-weight: 800;
+    font-size: 1.6rem;
+    text-align: center;
+    color: #ffb3be;
+    text-shadow:
+      0 0 6px #ffb3be,
+      0 0 12px #ff3d5a;
+    user-select: text;
+  }
+
+  /* Responsive tweaks */
+  @media (max-width: 480px) {
+    .calculator-card {
+      padding: 30px 20px;
+    }
+    .btn-primary, .btn-secondary, .btn-danger {
+      width: 100%;
+      margin-bottom: 14px;
+      margin-right: 0;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="calculator-card" role="main" aria-label="GPA Calculator">
+  <h1>GPA Calculator</h1>
+  <form method="POST" id="gpaForm" novalidate>
+    <table id="gpaTable" class="table table-bordered" aria-describedby="instructions">
+      <caption id="instructions" class="visually-hidden">Enter course details: name, grade, and credits. Add or remove rows as needed.</caption>
+      <thead>
+        <tr>
+          <th scope="col">Course</th>
+          <th scope="col">Grade</th>
+          <th scope="col">Credits</th>
+          <th scope="col">Remove</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><input type="text" name="course[]" placeholder="e.g. Math 101" required aria-label="Course name"></td>
+          <td>
+            <select name="grade[]" required aria-label="Select grade">
+              <option value="">Select</option>
+              <option value="A+">A+</option>
+              <option value="A">A</option>
+              <option value="A-">A-</option>
+              <option value="B+">B+</option>
+              <option value="B">B</option>
+              <option value="B-">B-</option>
+              <option value="C+">C+</option>
+              <option value="C">C</option>
+              <option value="C-">C-</option>
+              <option value="D+">D+</option>
+              <option value="D">D</option>
+              <option value="D-">D-</option>
+              <option value="F">F</option>
+            </select>
+          </td>
+          <td><input type="number" name="credit[]" min="0" placeholder="0" required aria-label="Credits"></td>
+          <td><button type="button" class="remove-btn" onclick="removeRow(this)" aria-label="Remove course row">×</button></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="mb-3 text-center">
+      <button type="button" class="btn btn-primary" onclick="addRow()" aria-label="Add course row">Add Row</button>
+      <button type="submit" class="btn btn-primary" aria-label="Calculate GPA">Calculate GPA</button>
+      <button type="button" class="btn btn-secondary" onclick="resetTable()" aria-label="Reset all rows">Reset</button>
+    </div>
+  </form>
+
+  {% if result is not none %}
+    <div class="result" role="alert" aria-live="polite">
+      {% if result is string %}
+        {{ result }}
+      {% else %}
+        Your GPA is: <strong>{{ result }}</strong>
+      {% endif %}
+    </div>
+  {% endif %}
+</div>
+
+<script>
+  function addRow() {
+    const tbody = document.querySelector("#gpaTable tbody");
+    const newRow = document.createElement("tr");
+    newRow.innerHTML = `
+      <td><input type="text" name="course[]" placeholder="e.g. Physics" required aria-label="Course name"></td>
+      <td>
+        <select name="grade[]" required aria-label="Select grade">
+          <option value="">Select</option>
+          <option value="A+">A+</option>
+          <option value="A">A</option>
+          <option value="A-">A-</option>
+          <option value="B+">B+</option>
+          <option value="B">B</option>
+          <option value="B-">B-</option>
+          <option value="C+">C+</option>
+          <option value="C">C</option>
+          <option value="C-">C-</option>
+          <option value="D+">D+</option>
+          <option value="D">D</option>
+          <option value="D-">D-</option>
+          <option value="F">F</option>
+        </select>
+      </td>
+      <td><input type="number" name="credit[]" min="0" placeholder="0" required aria-label="Credits"></td>
+      <td><button type="button" class="remove-btn" onclick="removeRow(this)" aria-label="Remove course row">×</button></td>
+    `;
+    tbody.appendChild(newRow);
+  }
+
+  function removeRow(btn) {
+    const row = btn.closest('tr');
+    const tbody = row.parentNode;
+    if (tbody.rows.length > 1) {
+      row.remove();
+    } else {
+      alert("At least one row is required.");
+    }
+  }
+
+  function resetTable() {
+    const tbody = document.querySelector("#gpaTable tbody");
+    tbody.innerHTML = `
+      <tr>
+        <td><input type="text" name="course[]" placeholder="e.g. Math 101" required aria-label="Course name"></td>
+        <td>
+          <select name="grade[]" required aria-label="Select grade">
+            <option value="">Select</option>
+            <option value="A+">A+</option>
+            <option value="A">A</option>
+            <option value="A-">A-</option>
+            <option value="B+">B+</option>
+            <option value="B">B</option>
+            <option value="B-">B-</option>
+            <option value="C+">C+</option>
+            <option value="C">C</option>
+            <option value="C-">C-</option>
+            <option value="D+">D+</option>
+            <option value="D">D</option>
+            <option value="D-">D-</option>
+            <option value="F">F</option>
+          </select>
+        </td>
+        <td><input type="number" name="credit[]" min="0" placeholder="0" required aria-label="Credits"></td>
+        <td><button type="button" class="remove-btn" onclick="removeRow(this)" aria-label="Remove course row">×</button></td>
+      </tr>`;
+  }
+</script>
+
+</body>
+</html>
